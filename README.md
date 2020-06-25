@@ -1,2 +1,2 @@
-# wsip2region
-Wireshark ip to region dissector
+# wsip2rlocation
+Wireshark ip to location dissector
