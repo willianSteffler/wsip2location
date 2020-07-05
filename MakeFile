@@ -1,0 +1,27 @@
+TARGET_LIB = lib/IP2Location.lib
+TARGET_EXE = wsip2location.exe
+
+C_COMPILE = cl
+C_LIBTOOL = lib
+C_LINKER = link
+CCFLAGS = /nologo /D WIN32 /c /ML 
+CLFLAGS = /nologo /NODEFAULTLIB:LIBCD /SUBSYSTEM:CONSOLE 
+
+HEADER_INCLUDE = /I lib/IP2Location-C-Library/libIP2Location
+IP2LOCATION_SOURCE = lib/IP2Location-C-Library/libIP2Location/IP2Location.c \
+										 lib/IP2Location-C-Library/libIP2Location/IP2Loc_DBInterface.c 
+
+WSIP2LOCATION = wsip2location.c
+										 
+.SUFFIXES: .obj .c .exe
+
+all: $(TARGET_LIB) $(TARGET_EXE)
+
+.c.obj: 
+	$(C_COMPILE) $(CCFLAGS) $(HEADER_INCLUDE) /Fo$@ /TC $< 
+	
+$(TARGET_LIB): $(IP2LOCATION_SOURCE:.c=.obj)
+	$(C_LIBTOOL) /OUT:$@ /nologo Ws2_32.lib $(IP2LOCATION_SOURCE:.c=.obj)
+
+$(TARGET_EXE): $(WSIP2LOCATION:.c=.obj)
+	$(C_LINKER) $(CLFLAGS) /OUT:$(TARGET_EXE) $(TARGET_LIB) User32.lib $(WSIP2LOCATION:.c=.obj)
