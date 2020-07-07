@@ -11,7 +11,7 @@
 
 int main()
 {
-    char ipAddress[30];
+    char ipAddress[40];
     int exit = 0;
 
 #ifdef WIN32
